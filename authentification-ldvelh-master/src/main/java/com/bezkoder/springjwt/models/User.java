@@ -41,7 +41,7 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL)
-	Set<Project> project;
+	Set<Project> projects;
 
 
 	public User(String username, String email, String password) {

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,8 +18,4 @@ public class ProjectDto {
     private Date dateD;
     private Long userId;
 
-//    public static  Project convertToProject( ProjectDto projectDto) {
-//        return new  Project(projectDto.userId, projectDto.name, projectDto.description,
-//                projectDto.entrepreneur, projectDto.besoin, projectDto.dateD);
-//    }
 }

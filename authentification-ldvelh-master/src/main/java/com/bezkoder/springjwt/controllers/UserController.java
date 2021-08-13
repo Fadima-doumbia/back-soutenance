@@ -4,6 +4,7 @@ import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") final Long id) {
         userService.deleteUser(id);
@@ -46,5 +48,4 @@ public class UserController {
     public User createUser(@RequestBody User u){
         return userService.saveUser(u);
     }
-
 }

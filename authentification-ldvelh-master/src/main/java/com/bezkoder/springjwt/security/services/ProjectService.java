@@ -50,7 +50,7 @@ public class ProjectService {
         User user = null;
         if (userOptional.isPresent()){
             user = userOptional.get();
-            user.getProject().add(project);
+            user.getProjects().add(project);
             return userRepository.save(user);
         }
         return user;
