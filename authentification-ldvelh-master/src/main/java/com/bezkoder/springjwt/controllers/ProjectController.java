@@ -16,11 +16,15 @@ public class ProjectController {
     @Autowired
     private ProjectService projetService;
 
+    //**************************** recuperer des projets ******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @GetMapping
     public Iterable<Project> getProjects(){
         return projetService.getProjects();
     }
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
+
+    //**************************** recuperer un projet******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @GetMapping("/{id}")
     public Project getProjet(@PathVariable("id") final Long id) {
         Optional<Project> projet = projetService.getProject(id);
@@ -31,19 +35,22 @@ public class ProjectController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    //**************************** ajouter un objet ******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")//authoriser avec des roles
     @PostMapping("/{idUser}")
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
         return projetService.saveProject(projectDto, idUser);
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    //**************************** supprimer un objet ******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id) {
         projetService.deleteProject(id);
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    //**************************** modifier un objet ******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @PutMapping("")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
         return projetService.updateProject(projectDto);

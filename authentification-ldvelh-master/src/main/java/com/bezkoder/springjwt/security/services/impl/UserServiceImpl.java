@@ -13,27 +13,35 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    //**********************************methode de recuperation de tout les objets **************************************************************
+
     @Override
     public Iterable<User> getAllUser(){
         return userRepository.findAll();
     }
 
+    //**********************************methode de recuperation d'un objet **************************************************************
+
     @Override
     public Optional<User> getUser(final Long id){
         return userRepository.findById(id);
     }
-//    public Iterable<User> getUsers(){
-//        return userRepository.findAll();
-//    }
+
+    //**********************************methode de suppression **************************************************************
+
     @Override
     public void deleteUser(final Long id){
         userRepository.deleteById(id);
     }
+    //**********************************methode d'enreigistrement **************************************************************
+
     @Override
     public User saveUser(User u){
         User save = userRepository.save(u);
         return save;
     }
+
+    //**********************************methode de modififation **************************************************************
     @Override
     public Optional<User> updateUser(Long id){
         return userRepository.findById(id);

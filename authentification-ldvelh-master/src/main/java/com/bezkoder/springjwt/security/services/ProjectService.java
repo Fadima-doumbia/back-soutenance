@@ -22,28 +22,39 @@ public class ProjectService {
 
     @Autowired
     private UserRepository userRepository;
+    //********************************** pour recuperer un objet **************************************************************
 
     public Optional<Project> getProject(final Long id){
         return projectRepository.findById(id);
     }
 
-    public Project save(Project project) {
-        return projectRepository.save(project);
-    }
+    //********************************** pour recuperer des objets **************************************************************
 
     public Iterable<Project> getProjects(){
         return projectRepository.findAll();
     }
 
+    //********************************** pour supprimer un objet **************************************************************
+
     public void deleteProject(final Long id){
         projectRepository.deleteById(id);
     }
+
+    //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
             return projectRepository.save(project);
 
     }
+
+    //********************************** pour enreigistrer un objet **************************************************************
+
+    public Project save(Project project) {
+        return projectRepository.save(project);
+    }
+    //********************************** Pour enreigistrer un objet **************************************************************
+
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);

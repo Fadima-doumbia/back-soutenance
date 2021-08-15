@@ -9,12 +9,13 @@ public interface UserService {
 
     Optional<User> getUser(Long id);
 
-    //    public Iterable<User> getUsers(){
-    //        return userRepository.findAll();
-    //    }
     void deleteUser(Long id);
 
     User saveUser(User u);
 
     Optional<User> updateUser(Long id);
+
+    //    public Iterable<User> getUsers(){
+    //        return userRepository.findAll();
+    //    }
 }

@@ -17,11 +17,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    //**************************** recuperer des projets******************************************************
     @GetMapping("")
     public Iterable<User> listUser(){
         return userService.getAllUser();
     }
 
+    //**************************** recuperer un projet******************************************************
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") final Long id) {
         Optional<User> user = userService.getUser(id);
@@ -32,18 +34,22 @@ public class UserController {
         }
     }
 
+    //**************************** supprimer des projet******************************************************
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") final Long id) {
         userService.deleteUser(id);
     }
 
+    //**************************** modifier des projet******************************************************
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping
     public User updateUser(@RequestBody User u){
         Optional<User> project = userService.getUser(u.getId());
         return userService.saveUser(u);
     }
 
+    //**************************** ajouter des projet******************************************************
     @PostMapping()
     public User createUser(@RequestBody User u){
         return userService.saveUser(u);
