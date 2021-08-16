@@ -17,14 +17,14 @@ public class ProjectController {
     private ProjectService projetService;
 
     //**************************** recuperer des projets ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping
     public Iterable<Project> getProjects(){
         return projetService.getProjects();
     }
 
     //**************************** recuperer un projet******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("/{id}")
     public Project getProjet(@PathVariable("id") final Long id) {
         Optional<Project> projet = projetService.getProject(id);
@@ -36,21 +36,21 @@ public class ProjectController {
     }
 
     //**************************** ajouter un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")//authoriser avec des roles
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
     @PostMapping("/{idUser}")
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
         return projetService.saveProject(projectDto, idUser);
     }
 
     //**************************** supprimer un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id) {
         projetService.deleteProject(id);
     }
 
     //**************************** modifier un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
         return projetService.updateProject(projectDto);

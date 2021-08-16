@@ -6,7 +6,7 @@ import java.util.Set;
 public enum ERole {
     ROLE_USER,
     ROLE_MODERATOR,
-    ROLE_INVESTITEUR,
+    ROLE_INVESTISSEUR,
     ROLE_ENTREPRENEUR,
     ROLE_ADMIN;
 

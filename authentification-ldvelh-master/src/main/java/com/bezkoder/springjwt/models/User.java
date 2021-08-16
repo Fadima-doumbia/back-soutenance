@@ -22,14 +22,19 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@NotBlank
 	@JoinColumn(unique = true)
 	@Size(max = 20)
 	private String username;
+
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
+
+	private String presentation;
+
 	@NotBlank
 	@Size(max = 120)
 	private String password;

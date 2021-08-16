@@ -83,36 +83,38 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-        // Creer un nouveau compte utilisateur
+         // Creer un nouveau compte utilisateur
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
-//        Set<String> strRoles = signUpRequest.getRole();
+         //Set<String> strRoles = signUpRequest.getRole();
             Set<String> strRoles = new HashSet<String>(Collections.singletonList(signUpRequest.getRole()));
-        Set<Role> roles = new HashSet<>();
+            Set<Role> roles = new HashSet<>();
 
+            //**********************Si l'utilisateur ne met pas de role, il met investisser par defaut****************
         if (strRoles.isEmpty()) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role investRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+            roles.add(investRole);
         } else {
+            //***************Sinon il regarde si les conditions ci dessous son remplis*************************
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role  admin is not found."));
                         roles.add(adminRole);
+                        break;
 
-                        break;
-                    case "moderator":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                    case "entrepreneur":
+                        Role entrRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role mod is not found."));
-                        roles.add(modRole);
+                        roles.add(entrRole);
                         break;
-                    case "user":
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    case "investisseur":
+                        Role investRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role user is not found."));
-                        roles.add(userRole);
+                        roles.add(investRole);
                         break;
                     default:
 //                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
