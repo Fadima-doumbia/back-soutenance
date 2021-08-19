@@ -42,7 +42,6 @@ public class ProjectService {
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
             return projectRepository.save(project);
-
     }
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
