@@ -1,15 +1,19 @@
 package com.bezkoder.springjwt.security.services.impl;
 
+import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     UserRepository userRepository;
 
@@ -27,12 +31,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    //**********************************methode de suppression **************************************************************
-
-    @Override
-    public void deleteUser(final Long id){
-        userRepository.deleteById(id);
-    }
     //**********************************methode d'enreigistrement **************************************************************
 
     @Override
@@ -46,6 +44,35 @@ public class UserServiceImpl implements UserService {
     public Optional<User> updateUser(Long id){
         return userRepository.findById(id);
     }
+
+
+    //**********************************methode de suppression **************************************************************
+
+    @Override
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
+    }//    public void deleteUser(final Long id){
+//        userRepository.deleteById(id);
+//    }
+//    public void deleteUser(final Long id){
+//        userRepository.deleteById(id);
+//    }
+
+    @Override
+    public void deleteProjectUserId(Long id, Long userId){
+        Optional<User> userOptional = userRepository.findById(userId);
+        Set<Project> projectList = null;
+        User user = null;
+        if(userOptional.isPresent()){
+            user = userOptional.get();
+            projectList = user.getProjects();
+            for (Project project:
+                    projectList) {
+                projectList.remove(id);
+            }
+            userRepository.save(user);
+        }
+    }
 //**********************************************************************************************************************
 //        public Project saveProject(ProjectDto bookDto) {
 //        var user = userRepository.findById(bookDto.getUser_id());
@@ -55,8 +82,7 @@ public class UserServiceImpl implements UserService {
 //        userRepository.save(user.get());
 //        return project;
 //    }
-//
-//
+
 //    public User userAddChapter(Long id, Project project, User u) {
 //        Optional<User> userOptional = userRepository.findById(id);
 //        User user = null;

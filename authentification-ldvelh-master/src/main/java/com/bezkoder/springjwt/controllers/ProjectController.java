@@ -4,6 +4,7 @@ import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.ProjectService;
+import com.bezkoder.springjwt.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,11 @@ import java.util.Optional;
 public class ProjectController {
     @Autowired
     private ProjectService projetService;
+    private UserService userService;
 
     //**************************** recuperer des projets ******************************************************
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
-    @GetMapping
+    @GetMapping("")
     public Iterable<Project> getProjects(){
         return projetService.getProjects();
     }
@@ -47,7 +49,11 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id) {
         projetService.deleteProject(id);
+
     }
+//    public void  deleteProjet(@RequestBody ProjectDto projectDto){
+//        projetService.deleteProject(projectDto.getId());
+//    }
 
     //**************************** modifier un objet ******************************************************
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")

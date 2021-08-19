@@ -2,6 +2,8 @@ package com.bezkoder.springjwt.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.List;
@@ -40,12 +42,13 @@ public class User {
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	Set<Project> projects;
 
 

@@ -36,16 +36,20 @@ public class ProjectService {
 
     //********************************** pour supprimer un objet **************************************************************
 
-    public void deleteProject(final Long id){
-        projectRepository.deleteById(id);
+    public void deleteProject(Long id){
+        Optional<Project> optionalProject = projectRepository.findById(id);//il va chercher dans le repository celui qui correspond a cet id puis delete
+        Project project= null;
+        if(optionalProject.isPresent()){
+            project = optionalProject.get();//recuperation du projet
+            projectRepository.delete(project);//delete
+        }
     }
 
     //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
-            return projectRepository.save(project);
-
+        return projectRepository.save(project);
     }
 
     //********************************** pour enreigistrer un objet **************************************************************
