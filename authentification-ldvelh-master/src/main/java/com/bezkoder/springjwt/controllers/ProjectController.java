@@ -37,7 +37,7 @@ public class ProjectController {
 
     //**************************** ajouter un objet ******************************************************
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
-    @PostMapping("/{idUser}")
+    @PostMapping("/create/{idUser}")
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
         return projetService.saveProject(projectDto, idUser);
     }
@@ -51,7 +51,7 @@ public class ProjectController {
 
     //**************************** modifier un objet ******************************************************
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-    @PutMapping("")
+    @PutMapping("/update")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
         return projetService.updateProject(projectDto);
     }
