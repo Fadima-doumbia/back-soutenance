@@ -7,6 +7,7 @@ import com.bezkoder.springjwt.security.services.ProjectService;
 import com.bezkoder.springjwt.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -45,10 +46,10 @@ public class ProjectController {
     }
 
     //**************************** supprimer un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
-    public void deleteProjet(@PathVariable("id") final Long id) {
-        projetService.deleteProject(id);
+    public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
+        projetService.deleteProject(id, authentication.getName());
 
     }
 //    public void  deleteProjet(@RequestBody ProjectDto projectDto){

@@ -46,14 +46,13 @@ public class UserController {
 
     //**************************** supprimer des projet******************************************************
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}/{userId}")
-//    public void deleteUser(@PathVariable("id") final Long id) {
+//    @DeleteMapping("/{id}/{userId}")
+//    public void deleteUserProject(@PathVariable("id") Long id, @PathVariable("userId") Long userId) {
+//        userService.deleteProjectUserId(id, userId);
+//    }
+    //    public void deleteUser(@PathVariable("id") final Long id) {
 //        userService.deleteUser(id);
 //    }
-    public void deleteUserProject(@PathVariable("id") Long id, @PathVariable("userId") Long userId) {
-        userService.deleteProjectUserId(id, userId);
-    }
-
     //**************************** modifier des projet******************************************************
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping

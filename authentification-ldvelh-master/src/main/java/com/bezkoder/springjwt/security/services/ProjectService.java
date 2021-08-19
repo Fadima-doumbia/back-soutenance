@@ -36,13 +36,25 @@ public class ProjectService {
 
     //********************************** pour supprimer un objet **************************************************************
 
-    public void deleteProject(Long id){
-        Optional<Project> optionalProject = projectRepository.findById(id);//il va chercher dans le repository celui qui correspond a cet id puis delete
-        Project project= null;
-        if(optionalProject.isPresent()){
-            project = optionalProject.get();//recuperation du projet
-            projectRepository.delete(project);//delete
+//    public void deleteProject(Long id){
+//        Optional<Project> optionalProject = projectRepository.findById(id);//il va chercher dans le repository celui qui correspond a cet id puis delete
+//        Project project= null;
+//        if(optionalProject.isPresent()){
+//            project = optionalProject.get();//recuperation du projet
+//            projectRepository.delete(project);//delete
+//        }
+//    }
+
+    public User deleteProject(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        if (userOptional.isPresent()){
+            Optional<User> projetOptional = userRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            return userRepository.save(user);
         }
+        return user;
     }
 
     //********************************** pour modifier un objet **************************************************************
