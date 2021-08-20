@@ -51,12 +51,18 @@ public class User {
 	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	Set<Project> projects;
 
-
+//
+//
 	public User(String username, String email, String password) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
-//	@OneToMany
-//	private List<Project> projet;
+//
+	public User(String username, String email, String presentation, String encode) {
+		this.username = username;
+		this.email = email;
+		this.presentation = presentation;
+		this.password = password;
+	}
 }

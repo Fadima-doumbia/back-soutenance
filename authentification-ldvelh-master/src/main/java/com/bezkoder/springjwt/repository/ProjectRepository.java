@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.Optional;
 
 @Repository
-@CrossOrigin("*")
+@CrossOrigin("*")//intervient quand je viens du front il lie le front et back
 public interface ProjectRepository extends CrudRepository<Project,Long> {
     static void save(Optional<User> user) {
     }

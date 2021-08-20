@@ -67,6 +67,7 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getPresentation(),
                 roles));
     }
 
@@ -86,6 +87,7 @@ public class AuthController {
          // Creer un nouveau compte utilisateur
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
+                signUpRequest.getPresentation(),
                 encoder.encode(signUpRequest.getPassword()));
          //Set<String> strRoles = signUpRequest.getRole();
             Set<String> strRoles = new HashSet<String>(Collections.singletonList(signUpRequest.getRole()));

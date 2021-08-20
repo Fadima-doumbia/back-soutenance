@@ -17,7 +17,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+
+    //**************************** ajouter des projet******************************************************
+
+    @PostMapping()
+    public User createUser(@RequestBody User u){
+        return userService.saveUser(u);
+    }
+
     //**************************** recuperer des projets******************************************************
+
     @GetMapping("")
     public Iterable<User> listUser(){
         return userService.getAllUser();
@@ -32,16 +42,6 @@ public class UserController {
         } else {
             return null;
         }
-    }
-
-    //**************************** supprimer des projet******************************************************
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
-//    public void deleteUser(@PathVariable("id") final Long id) {
-//        userService.deleteUser(id);
-//    }
-    public void deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
     }
 
     //**************************** supprimer des projet******************************************************
@@ -61,9 +61,15 @@ public class UserController {
         return userService.saveUser(u);
     }
 
-    //**************************** ajouter des projet******************************************************
-    @PostMapping()
-    public User createUser(@RequestBody User u){
-        return userService.saveUser(u);
+
+    //**************************** supprimer des projet******************************************************
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
+//    public void deleteUser(@PathVariable("id") final Long id) {
+//        userService.deleteUser(id);
+//    }
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
     }
+
 }

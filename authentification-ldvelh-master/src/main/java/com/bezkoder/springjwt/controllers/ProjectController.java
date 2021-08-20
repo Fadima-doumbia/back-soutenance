@@ -19,7 +19,17 @@ public class ProjectController {
     private ProjectService projetService;
     private UserService userService;
 
+
+    //**************************** ajouter un objet ******************************************************
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
+    @PostMapping("/{idUser}")
+    public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
+        return projetService.saveProject(projectDto, idUser);
+    }
+
     //**************************** recuperer des projets ******************************************************
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("")
     public Iterable<Project> getProjects(){
@@ -27,6 +37,7 @@ public class ProjectController {
     }
 
     //**************************** recuperer un projet******************************************************
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("/{id}")
     public Project getProjet(@PathVariable("id") final Long id) {
@@ -38,11 +49,12 @@ public class ProjectController {
         }
     }
 
-    //**************************** ajouter un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
-    @PostMapping("/{idUser}")
-    public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
-        return projetService.saveProject(projectDto, idUser);
+    //**************************** modifier un objet ******************************************************
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @PutMapping("")
+    public Project updateProjet(@RequestBody ProjectDto projectDto){
+        return projetService.updateProject(projectDto);
     }
 
     //**************************** supprimer un objet ******************************************************
@@ -55,11 +67,4 @@ public class ProjectController {
 //    public void  deleteProjet(@RequestBody ProjectDto projectDto){
 //        projetService.deleteProject(projectDto.getId());
 //    }
-
-    //**************************** modifier un objet ******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-    @PutMapping("")
-    public Project updateProjet(@RequestBody ProjectDto projectDto){
-        return projetService.updateProject(projectDto);
-    }
 }

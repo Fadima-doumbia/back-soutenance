@@ -45,11 +45,18 @@ public class ProjectService {
 //        }
 //    }
 
+//
+//    public User deleteUserAndProjects(Long id){
+//        deleteUserAndProjects(id);
+//
+//    }
+
+
     public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
         if (userOptional.isPresent()){
-            Optional<User> projetOptional = userRepository.findById(id);
+            Optional<Project> projetOptional = projectRepository.findById(id);
             user = userOptional.get();
             user.getProjects().remove(projetOptional.get());
             return userRepository.save(user);
@@ -82,4 +89,5 @@ public class ProjectService {
         }
         return user;
     }
+
 }
