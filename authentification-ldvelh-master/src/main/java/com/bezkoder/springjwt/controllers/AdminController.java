@@ -9,19 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+
 @Data
 @RestController
-@RequestMapping("api/users")
-public class UserController {
+@RequestMapping("api/admin")
+public class AdminController {
 
     @Autowired
     UserService userService;
-
-
-
     //**************************** ajouter des projet******************************************************
 
-    @PostMapping()
+    @PostMapping("/create")
     public User createUser(@RequestBody User u){
         return userService.saveUser(u);
     }
@@ -34,6 +32,7 @@ public class UserController {
     }
 
     //**************************** recuperer un projet******************************************************
+
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") final Long id) {
         Optional<User> user = userService.getUser(id);
@@ -45,7 +44,7 @@ public class UserController {
     }
 
     //**************************** modifier des projet******************************************************
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping
     public User updateUser(@RequestBody User u){
         Optional<User> project = userService.getUser(u.getId());
@@ -54,10 +53,10 @@ public class UserController {
 
 
     //**************************** supprimer des projet******************************************************
+    //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
     }
-
 }

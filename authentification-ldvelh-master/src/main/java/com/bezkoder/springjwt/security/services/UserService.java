@@ -17,11 +17,4 @@ public interface UserService {
     void deleteUser(Long id);
 
     User deleteProject(Long id, String username);
-
-    //    void deleteProjectUserId(Long id, Long userId);
-
-
-    //    public Iterable<User> getUsers(){
-    //        return userRepository.findAll();
-    //    }
 }
