@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.security.services;
 import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
 import com.bezkoder.springjwt.repository.ProjectRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -30,27 +32,17 @@ public class ProjectService {
 
     //********************************** pour recuperer des objets **************************************************************
 
-    public Iterable<Project> getProjects(){
+    public List<Project> getProjects(){
         return projectRepository.findAll();
     }
 
-    //********************************** pour supprimer un objet **************************************************************
+    //********************************** search un objet **************************************************************
 
-//    public void deleteProject(Long id){
-//        Optional<Project> optionalProject = projectRepository.findById(id);//il va chercher dans le repository celui qui correspond a cet id puis delete
-//        Project project= null;
-//        if(optionalProject.isPresent()){
-//            project = optionalProject.get();//recuperation du projet
-//            projectRepository.delete(project);//delete
-//        }
-//    }
+    public List<Project> searchProjectByName (SearchProjectRequest searchProjectRequest){
+        return projectRepository.findByName(searchProjectRequest.getName());
+    }
 
-//
-//    public User deleteUserAndProjects(Long id){
-//        deleteUserAndProjects(id);
-//
-//    }
-
+    //********************************** search un objet **************************************************************
 
     public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);

@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
 import com.bezkoder.springjwt.security.services.ProjectService;
 import com.bezkoder.springjwt.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -51,6 +53,20 @@ public class ProjectController {
 
     //**************************** modifier un objet ******************************************************
 
+    @PostMapping("/searchProject")
+    public List<Project> searchProjectByName(@RequestBody SearchProjectRequest searchProjectRequest){
+        List<Project> project = null;
+        if (searchProjectRequest.getName().isEmpty()){
+            project = projetService.getProjects();
+        }else{
+            project=projetService.searchProjectByName(searchProjectRequest);
+        }
+        return project;
+    }
+
+
+    //**************************** modifier un objet ******************************************************
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
@@ -64,7 +80,6 @@ public class ProjectController {
         projetService.deleteProject(id, authentication.getName());
 
     }
-//    public void  deleteProjet(@RequestBody ProjectDto projectDto){
-//        projetService.deleteProject(projectDto.getId());
-//    }
+//@PathVariable pour recuperer le paramettre dans l'url
+    //@RequestBody pour recuperer le paramettre dans le formulaire
 }
