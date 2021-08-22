@@ -1,10 +1,13 @@
 package com.bezkoder.springjwt.security.services;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Project;
+import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
 import com.bezkoder.springjwt.repository.ProjectRepository;
+import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -21,6 +24,9 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
     private final ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -56,6 +62,34 @@ public class ProjectService {
         return user;
     }
 
+    public User deleteProjectAdmin(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if (userOptional.isPresent() && adminRole.isPresent()){
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            return userRepository.save(user);
+        }
+        return user;
+    }
+//     userOptional.get().getRoles() = "ROLE_ADMIN"
+//    public User deleteProjectAdmin(Long id, String username, ERole name){
+//        Optional<User> userOptional = userRepository.findByUsername(username);
+//        Optional<Role> roleOptional = roleRepository.findByName(name);
+//        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+//        User user = null;
+//        Role role = null;
+//
+//        if (adminRole!){
+//            Optional<Project> projetOptional = projectRepository.findById(id);
+//            user = userOptional.get();
+//            user.getProjects().remove(projetOptional.get());
+//            return userRepository.save(user);
+//        }
+//        return user;
+//    }
     //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){

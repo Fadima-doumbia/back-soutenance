@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
@@ -78,6 +79,14 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
         projetService.deleteProject(id, authentication.getName());
+
+    }
+
+    //**************************** supprimer un objet ******************************************************
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @DeleteMapping("/admin/{id}")
+    public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {
+        projetService.deleteProjectAdmin(id, authentication.getName());
 
     }
 //@PathVariable pour recuperer le paramettre dans l'url
