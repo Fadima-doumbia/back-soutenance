@@ -17,23 +17,24 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserService usersService;
 
-
-    //**************************** ajouter des projet******************************************************
+    //**************************** ajouter des user******************************************************
 
     @PostMapping()
     public User createUser(@RequestBody User u){
         return userService.saveUser(u);
     }
 
-    //**************************** recuperer des projets******************************************************
+    //**************************** recuperer des user******************************************************
 
     @GetMapping("")
     public Iterable<User> listUser(){
         return userService.getAllUser();
     }
 
-    //**************************** recuperer un projet******************************************************
+    //**************************** recuperer un user******************************************************
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") final Long id) {
         Optional<User> user = userService.getUser(id);
@@ -44,7 +45,7 @@ public class UserController {
         }
     }
 
-    //**************************** modifier des projet******************************************************
+    //**************************** modifier des user******************************************************
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping
     public User updateUser(@RequestBody User u){
@@ -53,11 +54,12 @@ public class UserController {
     }
 
 
-    //**************************** supprimer des projet******************************************************
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-    }
+    //**************************** supprimer des user******************************************************
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+     @DeleteMapping("/delete/{id}")
+     public void deleteUser(@PathVariable("id") Long id) {
+         usersService.deleteUser(id);
+     }
 }
