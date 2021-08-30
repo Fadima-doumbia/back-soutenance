@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.security.services;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.dto.UserDto;
 import com.bezkoder.springjwt.models.User;
 
 import java.util.Optional;
@@ -12,7 +13,8 @@ public interface UserService {
 
     User saveUser(User u);
 
-    Optional<User> updateUser(Long id);
+//    User updateUser(User user);
+    User updateUser(UserDto userDto);
 
     void deleteUser(Long id);
 

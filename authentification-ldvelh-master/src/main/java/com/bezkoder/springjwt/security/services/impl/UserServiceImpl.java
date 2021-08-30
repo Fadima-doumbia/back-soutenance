@@ -1,22 +1,23 @@
 package com.bezkoder.springjwt.security.services.impl;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.dto.UserDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     //**********************************methode de recuperation de tout les objets **************************************************************
 
@@ -36,16 +37,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User u) {
-        User save = userRepository.save(u);
-        return save;
+        return userRepository.save(u);
     }
 
     //**********************************methode de modififation **************************************************************
-    @Override
-    public Optional<User> updateUser(Long id) {
-        return userRepository.findById(id);
+    public User updateUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        return userRepository.save(user);
     }
-
 
     //**********************************methode de suppression **************************************************************
 

@@ -75,7 +75,7 @@ public class ProjectController {
     }
 
     //**************************** supprimer un objet ******************************************************
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
         projetService.deleteProject(id, authentication.getName());
@@ -83,12 +83,11 @@ public class ProjectController {
     }
 
     //**************************** supprimer un objet ******************************************************
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/admin/{id}")
     public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {
         projetService.deleteProjectAdmin(id, authentication.getName());
-
     }
-//@PathVariable pour recuperer le paramettre dans l'url
+    //@PathVariable pour recuperer le paramettre dans l'url
     //@RequestBody pour recuperer le paramettre dans le formulaire
 }

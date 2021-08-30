@@ -1,5 +1,8 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.dto.UserDto;
+import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.UserService;
 import lombok.Data;
@@ -48,12 +51,9 @@ public class UserController {
     //**************************** modifier des user******************************************************
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping
-    public User updateUser(@RequestBody User u){
-        Optional<User> project = userService.getUser(u.getId());
-        return userService.saveUser(u);
+    public User updateUser(@RequestBody UserDto userDto){
+        return userService.updateUser(userDto);
     }
-
-
     //**************************** supprimer des user******************************************************
 
 

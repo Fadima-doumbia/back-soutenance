@@ -74,22 +74,7 @@ public class ProjectService {
         }
         return user;
     }
-//     userOptional.get().getRoles() = "ROLE_ADMIN"
-//    public User deleteProjectAdmin(Long id, String username, ERole name){
-//        Optional<User> userOptional = userRepository.findByUsername(username);
-//        Optional<Role> roleOptional = roleRepository.findByName(name);
-//        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-//        User user = null;
-//        Role role = null;
-//
-//        if (adminRole!){
-//            Optional<Project> projetOptional = projectRepository.findById(id);
-//            user = userOptional.get();
-//            user.getProjects().remove(projetOptional.get());
-//            return userRepository.save(user);
-//        }
-//        return user;
-//    }
+
     //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){
