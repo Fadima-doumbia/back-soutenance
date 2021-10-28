@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,11 +39,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User u) {
-        return userRepository.save(u);
+        User save = userRepository.save(u);
+        return save;
     }
 
     //**********************************methode de modififation **************************************************************
-    public User updateUser(UserDto userDto) {
+    @Override
+    public Optional<User> updateUser(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User updateUser(UserDto userDto){//nouvelle que je test
         User user = modelMapper.map(userDto, User.class);
         return userRepository.save(user);
     }

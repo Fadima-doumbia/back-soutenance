@@ -1,14 +1,15 @@
 package com.bezkoder.springjwt.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class UserDto {
-        private Long id;
-        private String username;
-        private String email;
-        private String presentation;
-        private String password;
+
+    private Long id;
+    private String username;
+    private String email;
+    private String presentation;
+    private String password;
+
 }
+

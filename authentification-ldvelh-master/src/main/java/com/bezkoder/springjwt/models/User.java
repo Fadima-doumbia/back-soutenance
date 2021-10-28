@@ -48,7 +48,8 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER) //c'est ca qui bloquait le update user
+//	@OneToMany // avec ca le createProject fonctionne
 	Set<Project> projects;
 
 	public User(String username, String email, String presentation, String password) {
