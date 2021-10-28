@@ -1,15 +1,20 @@
 package com.bezkoder.springjwt.security.services;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
+import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Project;
+import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
 import com.bezkoder.springjwt.repository.ProjectRepository;
+import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -21,38 +26,79 @@ public class ProjectService {
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private UserRepository userRepository;
+    //********************************** pour recuperer un objet **************************************************************
 
     public Optional<Project> getProject(final Long id){
         return projectRepository.findById(id);
     }
 
-    public Project save(Project project) {
-        return projectRepository.save(project);
-    }
+    //********************************** pour recuperer des objets **************************************************************
 
-    public Iterable<Project> getProjects(){
+    public List<Project> getProjects(){
         return projectRepository.findAll();
     }
 
-    public void deleteProject(final Long id){
-        projectRepository.deleteById(id);
+    //********************************** search un objet **************************************************************
+
+    public List<Project> searchProjectByName (SearchProjectRequest searchProjectRequest){
+        return projectRepository.findByName(searchProjectRequest.getName());
     }
+
+    //********************************** search un objet **************************************************************
+
+    public User deleteProject(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        if (userOptional.isPresent()){
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            return userRepository.save(user);
+        }
+        return user;
+    }
+
+    public User deleteProjectAdmin(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if (userOptional.isPresent() && adminRole.isPresent()){
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            return userRepository.save(user);
+        }
+        return user;
+    }
+
+    //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
-            return projectRepository.save(project);
-
+        return projectRepository.save(project);
     }
+
+    //********************************** pour enreigistrer un objet **************************************************************
+
+    public Project save(Project project) {
+        return projectRepository.save(project);
+    }
+    //********************************** Pour enreigistrer un objet **************************************************************
+
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);
         User user = null;
         if (userOptional.isPresent()){
             user = userOptional.get();
-            user.getProject().add(project);
+            user.getProjects().add(project);
             return userRepository.save(user);
         }
         return user;
     }
+
 }

@@ -3,7 +3,6 @@ package com.bezkoder.springjwt.controllers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +66,7 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getPresentation(),
                 roles));
     }
 
@@ -83,36 +83,38 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-        // Create new user's account
+         // Creer un nouveau compte utilisateur
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
+                signUpRequest.getPresentation(),
                 encoder.encode(signUpRequest.getPassword()));
-//        Set<String> strRoles = signUpRequest.getRole();
+         //Set<String> strRoles = signUpRequest.getRole();
             Set<String> strRoles = new HashSet<String>(Collections.singletonList(signUpRequest.getRole()));
-        Set<Role> roles = new HashSet<>();
+            Set<Role> roles = new HashSet<>();
 
+            //**********************Si l'utilisateur ne met pas de role, il met investisser par defaut****************
         if (strRoles.isEmpty()) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role investRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+            roles.add(investRole);
         } else {
+            //***************Sinon il regarde si les conditions ci dessous son remplis*************************
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role  admin is not found."));
                         roles.add(adminRole);
-
                         break;
-                    case "moderator":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                    case "entrepreneur":
+                        Role entrRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role mod is not found."));
-                        roles.add(modRole);
+                        roles.add(entrRole);
                         break;
-                    case "user":
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    case "investisseur":
+                        Role investRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role user is not found."));
-                        roles.add(userRole);
+                        roles.add(investRole);
                         break;
                     default:
 //                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -127,57 +129,3 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
-
-    /*public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
-        Set<ERole> eRoles = ERole.ConvertFromString(signUpRequest.getRole());
-        Set<Role> roles = new HashSet<>();
-
-        if (eRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            eRoles.forEach(role -> {
-                        Role currentRole = roleRepository.findByName(role)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(currentRole);
-                    }
-//                switch (role) {
-//                    case ROLE_ADMIN:
-//                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(adminRole);
-//                        break;
-//                    case ROLE_MODERATOR:
-//                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(modRole);
-//                    case ROLE_USER:
-//                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(userRole);
-//                        break;
-//                }
-            );
-        }
-        user.setRoles(roles);
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
-}
-*/

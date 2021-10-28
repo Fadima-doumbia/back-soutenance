@@ -15,16 +15,16 @@ public class TestController {
 		return "Public Content.";
 	}
 	
-	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@GetMapping("/investisseur")
+	@PreAuthorize("hasRole('INVESTISSEUR') or hasRole('ENTREPRENEUR') or hasRole('ADMIN')")
 	public String userAccess() {
-		return "User Content.";
+		return "INVESTISSEUR Content.";
 	}
 
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
+	@GetMapping("/entrepreneur")
+	@PreAuthorize("hasRole('ENTREPRENEUR')")
 	public String moderatorAccess() {
-		return "Moderator Board.";
+		return "ENTREPRENEUR Board.";
 	}
 
 	@GetMapping("/admin")
