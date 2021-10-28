@@ -14,8 +14,8 @@ public interface UserService {
     User saveUser(User u);
 
 //    User updateUser(User user);
-    User updateUser(UserDto userDto);
-
+//    User updateUser(UserDto userDto);
+    Optional<User> updateUser(Long id);
     User updateUser(UserDto userDto);//nouvelle que je test
 
     void deleteUser(Long id);
