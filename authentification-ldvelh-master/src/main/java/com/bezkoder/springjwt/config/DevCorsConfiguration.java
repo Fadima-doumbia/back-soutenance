@@ -13,3 +13,5 @@ public class DevCorsConfiguration implements WebMvcConfigurer {
                 .exposedHeaders("Authorization");
     }
 }
+
+

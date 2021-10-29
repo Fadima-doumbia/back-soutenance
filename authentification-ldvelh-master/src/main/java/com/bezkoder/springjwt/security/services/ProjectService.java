@@ -20,35 +20,28 @@ import java.util.Optional;
 @Data
 @Service
 public class ProjectService {
-    //permet d'avoir acces au repository'
-    @Autowired
+    @Autowired //permet d'avoir acces au repository'
     private ProjectRepository projectRepository;
     private final ModelMapper modelMapper = new ModelMapper();
-
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserRepository userRepository;
-    //********************************** pour recuperer un objet **************************************************************
 
     public Optional<Project> getProject(final Long id){
         return projectRepository.findById(id);
     }
 
-    //********************************** pour recuperer des objets **************************************************************
 
     public List<Project> getProjects(){
         return projectRepository.findAll();
     }
 
-    //********************************** search un objet **************************************************************
 
     public List<Project> searchProjectByName (SearchProjectRequest searchProjectRequest){
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-    //********************************** search un objet **************************************************************
 
     public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
@@ -75,19 +68,17 @@ public class ProjectService {
         return user;
     }
 
-    //********************************** pour modifier un objet **************************************************************
 
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
         return projectRepository.save(project);
     }
 
-    //********************************** pour enreigistrer un objet **************************************************************
 
     public Project save(Project project) {
         return projectRepository.save(project);
     }
-    //********************************** Pour enreigistrer un objet **************************************************************
+
 
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);

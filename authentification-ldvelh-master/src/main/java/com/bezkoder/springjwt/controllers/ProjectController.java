@@ -23,7 +23,6 @@ public class ProjectController {
     private UserService userService;
 
 
-    //**************************** ajouter un objet ******************************************************
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
     @PostMapping("/{idUser}")
@@ -31,7 +30,6 @@ public class ProjectController {
         return projetService.saveProject(projectDto, idUser);
     }
 
-    //**************************** recuperer des projets ******************************************************
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("")
@@ -39,7 +37,6 @@ public class ProjectController {
         return projetService.getProjects();
     }
 
-    //**************************** recuperer un projet******************************************************
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("/{id}")
@@ -52,7 +49,6 @@ public class ProjectController {
         }
     }
 
-    //**************************** modifier un objet ******************************************************
 
     @PostMapping("/searchProject")
     public List<Project> searchProjectByName(@RequestBody SearchProjectRequest searchProjectRequest){
@@ -66,7 +62,6 @@ public class ProjectController {
     }
 
 
-    //**************************** modifier un objet ******************************************************
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
@@ -74,7 +69,7 @@ public class ProjectController {
         return projetService.updateProject(projectDto);
     }
 
-    //**************************** supprimer un objet ******************************************************
+
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
@@ -82,7 +77,7 @@ public class ProjectController {
 
     }
 
-    //**************************** supprimer un objet ******************************************************
+
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/admin/{id}")
     public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {

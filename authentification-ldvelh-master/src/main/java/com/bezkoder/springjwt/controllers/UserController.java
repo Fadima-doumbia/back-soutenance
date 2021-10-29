@@ -21,21 +21,17 @@ public class UserController {
     @Autowired
     UserService usersService;
 
-    //**************************** ajouter des user******************************************************
-
     @PostMapping()
     public User createUser(@RequestBody User u){
         return userService.saveUser(u);
     }
 
-    //**************************** recuperer des user******************************************************
 
     @GetMapping("")
     public Iterable<User> listUser(){
         return userService.getAllUser();
     }
 
-    //**************************** recuperer un user******************************************************
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") final Long id) {
         Optional<User> user = userService.getUser(id);
@@ -46,7 +42,6 @@ public class UserController {
         }
     }
 
-    //**************************** modifier des user******************************************************
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
     @PutMapping
     public User updateUser(@RequestBody User u){
@@ -60,8 +55,6 @@ public class UserController {
         Optional<User> user = userService.getUser(userDto.getId());
         return userService.updateUser(userDto);
     }
-
-    //**************************** supprimer des user******************************************************
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")

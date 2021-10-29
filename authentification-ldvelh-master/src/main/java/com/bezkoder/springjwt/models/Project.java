@@ -22,4 +22,8 @@ public class Project {
     private String besoin;
     private Date dateD;
     private Long userId;
+//    @ManyToOne
+//    @JoinColumn(name="userid", referencedColumnName="id")
+//    private User user;
+
 }
