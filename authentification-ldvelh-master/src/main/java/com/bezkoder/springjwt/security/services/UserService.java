@@ -18,7 +18,7 @@ public interface UserService {
 
     Optional<User> updateUser(Long id);
     User updateUser(UserDto userDto);//nouvelle que je test
-
+    User updateUserDto(Long id, String username);
     void deleteUser(Long id);
 
     User deleteProject(Long id, String username);
