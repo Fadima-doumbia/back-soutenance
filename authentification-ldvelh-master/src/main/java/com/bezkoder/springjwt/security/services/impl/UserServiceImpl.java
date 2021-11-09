@@ -1,7 +1,10 @@
 package com.bezkoder.springjwt.security.services.impl;
 
 import com.bezkoder.springjwt.dto.UserDto;
+import com.bezkoder.springjwt.models.ERole;
+import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -16,7 +19,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     private final ModelMapper modelMapper = new ModelMapper();
-
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public Iterable<User> getAllUser() {
@@ -27,6 +31,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUser(final Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return null;
     }
 
 
@@ -48,18 +57,47 @@ public class UserServiceImpl implements UserService {
 
     public User updateUserDto(Long id, String username){//nouvelle que je test
         User currentUser = userRepository.getById(id);
+
         currentUser.setUsername(username);
         return userRepository.save(currentUser);
     }
 
-/*
-    public void updateCustomerContacts(long id, String username) {
-        User user = repo.findById(id);
-        user.username = username;
-        repo.save(user);
+    public  User createNewAdmin(User user, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User newUser = null;
+        Optional<Role> roleAdmin = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if(userOptional.isPresent() && roleAdmin.isPresent()){
+            newUser = userRepository.save(user);
+        }
+        return newUser;
     }
-    }*/
 
+/*
+    public User deleteProjectAdmin(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if (userOptional.isPresent() && adminRole.isPresent()){
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            return userRepository.save(user);
+        }
+        return user;
+    }
+* */
+
+/*    public User saveProject(ProjectDto projectDto, Long idUser){
+        Optional<User> userOptional = userRepository.findById(idUser);
+        Project project = modelMapper.map(projectDto, Project.class);
+        User user = null;
+        if (userOptional.isPresent()){
+            user = userOptional.get();
+            user.getProjects().add(project);
+            return userRepository.save(user);
+        }
+        return user;
+    }*/
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

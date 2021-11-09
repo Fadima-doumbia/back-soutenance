@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
 	@NotBlank
@@ -41,6 +42,7 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinTable(	name = "user_roles", 
@@ -48,11 +50,13 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-//	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER) //c'est ca qui bloquait le update user
-//	@OneToMany // avec ca le createProject fonctionne
-//@OneToMany(mappedBy = "user")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	Set<Project> projects;
+
+/*	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
+	//c'est ca qui bloquait le update user
+	@OneToMany // avec ca le createProject fonctionne
+	@OneToMany(mappedBy = "user") */
 
 	public User(String username, String email, String presentation, String password) {
 		this.username = username;

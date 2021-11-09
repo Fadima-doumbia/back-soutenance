@@ -80,6 +80,15 @@ public class ProjectService {
     }
 
 
+   /* public Project saveProject(ProjectDto projectDto){
+        User userOptional = userRepository.findById(projectDto.getUser().getId()).get();
+        projectDto.setUser(userOptional);
+        Project project = modelMapper.map(projectDto, Project.class);
+        projectRepository.save(project);
+        return project;
+    }
+*/
+
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);

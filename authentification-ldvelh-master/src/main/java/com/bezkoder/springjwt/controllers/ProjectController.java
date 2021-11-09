@@ -29,6 +29,9 @@ public class ProjectController {
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
         return projetService.saveProject(projectDto, idUser);
     }
+/*    public Project createProjet( @RequestBody ProjectDto projectDto){
+        return projetService.saveProject(projectDto);
+    }*/
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")

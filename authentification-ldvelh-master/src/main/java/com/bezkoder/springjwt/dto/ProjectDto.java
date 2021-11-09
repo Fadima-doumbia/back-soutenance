@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.dto;
 
 import com.bezkoder.springjwt.models.Project;
+import com.bezkoder.springjwt.models.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +18,6 @@ public class ProjectDto {
     private String besoin;
     private Date dateD;
     private Long userId;
+//    private User user;
 
 }
