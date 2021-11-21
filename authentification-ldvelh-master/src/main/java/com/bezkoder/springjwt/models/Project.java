@@ -21,10 +21,10 @@ public class Project {
     private String entrepreneur;
     private String besoin;
     private Date dateD;
-    private Long userId;
+//    private Long userId;
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name="userid")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
 
 }

@@ -50,8 +50,10 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<Project> projects;
+/*	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	Set<Project> projects;*/
+	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+	private Set<Project> projects = new HashSet<>();
 
 /*	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	//c'est ca qui bloquait le update user

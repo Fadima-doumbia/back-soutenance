@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    @Override
     public User getUserById(Long id) {
         return null;
     }
