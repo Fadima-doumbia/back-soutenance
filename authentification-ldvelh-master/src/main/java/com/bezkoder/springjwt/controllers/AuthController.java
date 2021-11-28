@@ -129,4 +129,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+    /* le create admin fonctionne reste a enlever l'option role admin dans le authcontroller afin de ne pas laisser
+    l'opportunité a l'utilisateur d'acceder au create admin */
 }

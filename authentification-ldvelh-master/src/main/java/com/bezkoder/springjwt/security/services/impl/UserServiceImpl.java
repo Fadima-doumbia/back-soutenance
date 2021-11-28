@@ -11,7 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,6 +47,16 @@ public class UserServiceImpl implements UserService {
         return save;
     }
 
+    public  User createNewAdmin(User user, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User newUser = null;
+        Optional<Role> roleAdmin = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if(userOptional.isPresent() && roleAdmin.isPresent()){
+            newUser = userRepository.save(user);
+        }
+        return newUser;
+    }
+
     @Override
     public Optional<User> updateUser(Long id) {
         return userRepository.findById(id);
@@ -61,15 +74,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(currentUser);
     }
 
-    public  User createNewAdmin(User user, String username){
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        User newUser = null;
-        Optional<Role> roleAdmin = roleRepository.findByName(ERole.ROLE_ADMIN);
-        if(userOptional.isPresent() && roleAdmin.isPresent()){
-            newUser = userRepository.save(user);
-        }
-        return newUser;
-    }
+
 
 /*
     public User deleteProjectAdmin(Long id, String username){
@@ -97,6 +102,18 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }*/
+
+    /* essai
+       public User deleteProjectPro(Long id, String username){
+       Optional<User> userOptional = userRepository.findByUsername(username);
+       Optional<Project> projetOptional = projectRepository.findById(id);
+       User user = userOptional.get();
+       Long userId = user.getId();
+       Long projectUserId = projetOptional.get().getUserId();
+       if (userOptional.isPresent() && userId == projectUserId){
+           user.getProjects().remove(projetOptional.get());
+           return userRepository.save(user); }
+       return user;} */
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

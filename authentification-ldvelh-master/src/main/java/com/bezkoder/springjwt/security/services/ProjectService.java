@@ -42,15 +42,49 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-
     public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
         if (userOptional.isPresent()){
             Optional<Project> projetOptional = projectRepository.findById(id);
             user = userOptional.get();
+            user.getProjects();
+
             user.getProjects().remove(projetOptional.get());
             return userRepository.save(user);
+        }
+        return user;
+    }
+
+        /* test delete par propriete
+    public User deleteProject(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        if (userOptional.isPresent()){
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects();
+            if (user.getProjects().contains(projetOptional)){
+                user.getProjects().remove(projetOptional.get());
+                return userRepository.save(user);
+            }
+
+        }
+        return user;
+    }*/
+
+
+    public User deleteProjectEntren(Long id, String username){
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        User user = null;
+        Optional<Role> entreRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR);
+        if (userOptional.isPresent() && entreRole.isPresent()) {
+            Optional<Project> projetOptional = projectRepository.findById(id);
+            user = userOptional.get();
+            user.getProjects().remove(projetOptional.get());
+            // REMOVE FROM PARENT
+            user.getProjects().remove(0);
+            userRepository.save(user);
         }
         return user;
     }
@@ -68,18 +102,14 @@ public class ProjectService {
         return user;
     }
 
-
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);
         return projectRepository.save(project);
     }
 
-
-    public Project save(Project project) {
+    /*    public Project save(Project project) {
         return projectRepository.save(project);
-    }
-
-
+    }*/
    /* public Project saveProject(ProjectDto projectDto){
         User userOptional = userRepository.findById(projectDto.getUser().getId()).get();
         projectDto.setUser(userOptional);
@@ -88,18 +118,6 @@ public class ProjectService {
         return project;
     }
 */
-
-/*    public User saveProject(ProjectDto projectDto, Long idUser){
-        Optional<User> userOptional = userRepository.findById(idUser);
-        Project project = modelMapper.map(projectDto, Project.class);
-        User user = null;
-        if (userOptional.isPresent()){
-            user = userOptional.get();
-            user.getProjects().add(project);
-            return userRepository.save(user);
-        }
-        return user;
-    }*/
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);

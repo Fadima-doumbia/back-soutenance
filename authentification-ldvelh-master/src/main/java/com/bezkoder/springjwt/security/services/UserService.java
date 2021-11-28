@@ -12,6 +12,7 @@ public interface UserService {
     Optional<User> getUser(Long id);
 
     User saveUser(User u);
+    User createNewAdmin(User user, String username);
 
 //    User updateUser(User user);
 //    User updateUser(UserDto userDto);

@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.repository;
 
+import com.bezkoder.springjwt.dto.UserDto;
 import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.Role;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public interface ProjectRepository extends CrudRepository<Project,Long> {
     List<Project> findByName(String name);
     List<Project> findAll();
+//    Optional <Project> deleteProjectByUserId;
 
     static void save(Optional<User> user) {
     }
