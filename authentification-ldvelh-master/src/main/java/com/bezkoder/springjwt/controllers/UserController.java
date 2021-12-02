@@ -85,7 +85,7 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-/*    @DeleteMapping("/{id}")
+    /*    @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
         projetService.deleteProject(id, authentication.getName());
 

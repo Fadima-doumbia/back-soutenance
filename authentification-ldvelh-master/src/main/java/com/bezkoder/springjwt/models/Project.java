@@ -23,8 +23,4 @@ public class Project {
     private Date dateD;
     private Long userId;
 
-  /*  @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Long userId;*/
-
 }

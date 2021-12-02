@@ -42,7 +42,6 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinTable(	name = "user_roles", 
@@ -50,15 +49,8 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-/*	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Set<Project> projects;*/
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
 	private Set<Project> projects = new HashSet<>();
-
-/*	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
-	//c'est ca qui bloquait le update user
-	@OneToMany // avec ca le createProject fonctionne
-	@OneToMany(mappedBy = "user") */
 
 	public User(String username, String email, String presentation, String password) {
 		this.username = username;
