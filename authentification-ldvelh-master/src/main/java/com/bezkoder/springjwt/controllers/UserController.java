@@ -54,18 +54,6 @@ public class UserController {
         return userService.saveUser(u);
     }
 
-//    @PostMapping("/newAdmin")
-//    public User createUserAdmin(@RequestBody User u, Authentication authentication){
-//    /*            newUser = new User(signUpRequest.getUsername(),
-//                    signUpRequest.getEmail(),
-//                    signUpRequest.getPresentation(),
-//                    encoder.encode(signUpRequest.getPassword()));
-//            Set<String> strRoles = new HashSet<String>(Collections.singletonList(signUpRequest.getRole()));
-//            Set<Role> roles = new HashSet<>();
-//            roles.add(roleAdmin);
-//            */
-//        return userService.createNewAdmin(u, authentication.getName());
-//    }
 @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/createAdmin")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
@@ -128,9 +116,13 @@ public class UserController {
     @PutMapping("/dto")
     public User updateUserDto(@RequestBody UserDto userDto){
         Optional<User> user = userService.getUser(userDto.getId());
-        return userService.updateUser(userDto);
+        return userService.updateUserDto(userDto);
     }
-
+    //nouvelle que je test
+    @PutMapping("/update")
+    public User updateUserUsername(Authentication authentication, @RequestBody User user){
+        return userService.updateUser(authentication.getName(), user);
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
      @DeleteMapping("/delete/{id}")

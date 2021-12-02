@@ -2,6 +2,7 @@ package com.bezkoder.springjwt.security.services.impl;
 
 import com.bezkoder.springjwt.dto.UserDto;
 import com.bezkoder.springjwt.models.ERole;
+import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.RoleRepository;
@@ -20,32 +21,10 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
-
-    @Override
-    public Iterable<User> getAllUser() {
-        return userRepository.findAll();
-    }
-
-
-    @Override
-    public Optional<User> getUser(final Long id) {
-        return userRepository.findById(id);
-    }
-
-    public User getUserById(Long id) {
-        return null;
-    }
-
-
-    @Override
-    public User saveUser(User u) {
-        User save = userRepository.save(u);
-        return save;
-    }
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public  User createNewAdmin(User user, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
@@ -58,25 +37,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> updateUser(Long id) {
+    public Iterable<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getUser(final Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public User updateUser(UserDto userDto) {
-        return null;
-    }
-
-    public User updateUserDto(Long id, String username){//nouvelle que je test
-        User currentUser = userRepository.getById(id);
-
-        currentUser.setUsername(username);
-        return userRepository.save(currentUser);
+    public User saveUser(User u) {
+        User save = userRepository.save(u);
+        return save;
     }
 
 
+    @Override
+    public User updateUsersimple(User user) {
+        User userr = modelMapper.map(user, User.class);
+        return userRepository.save(userr);
+    }
+    @Override
+    public User updateUserDto(UserDto userDto) {//nouvelle que je test
+        User user = modelMapper.map(userDto, User.class);
+        return userRepository.save(user);
+    }
+    public User updateUser(String username, User user){//nouvelle que je test
+        Optional<User> currentUser = userRepository.findByUsername(username);
+        User userr = modelMapper.map(currentUser, User.class);
+        return userRepository.save(userr);
+    }
 
-/*
+    /*
     public User deleteProjectAdmin(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
@@ -90,8 +83,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 * */
-
-/*    public User saveProject(ProjectDto projectDto, Long idUser){
+    /*    public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);
         User user = null;
@@ -102,7 +94,6 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }*/
-
     /* essai
        public User deleteProjectPro(Long id, String username){
        Optional<User> userOptional = userRepository.findByUsername(username);

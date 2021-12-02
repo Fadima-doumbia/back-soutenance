@@ -17,13 +17,13 @@ public class TestController {
 	
 	@GetMapping("/investisseur")
 	@PreAuthorize("hasRole('INVESTISSEUR') or hasRole('ENTREPRENEUR') or hasRole('ADMIN')")
-	public String userAccess() {
+	public String investisseurAccess() {
 		return "INVESTISSEUR Content.";
 	}
 
 	@GetMapping("/entrepreneur")
 	@PreAuthorize("hasRole('ENTREPRENEUR')")
-	public String moderatorAccess() {
+	public String entrepreneurAccess() {
 		return "ENTREPRENEUR Board.";
 	}
 

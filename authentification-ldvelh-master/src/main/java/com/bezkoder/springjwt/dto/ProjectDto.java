@@ -17,8 +17,9 @@ public class ProjectDto {
     private String entrepreneur;
     private String besoin;
     private Date dateD;
-//    private Long userId;
+
+    private Long userId;
 //    private User user;
-    private User userId;
+//    private User userId;
 
 }
