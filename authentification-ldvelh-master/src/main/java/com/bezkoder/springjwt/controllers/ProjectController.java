@@ -1,15 +1,12 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.dto.ProjectDto;
-import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
 import com.bezkoder.springjwt.security.services.ProjectService;
-import com.bezkoder.springjwt.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +17,6 @@ import java.util.Optional;
 public class ProjectController {
     @Autowired
     private ProjectService projetService;
-    private UserService userService;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PostMapping("/{idUser}")
@@ -28,13 +24,11 @@ public class ProjectController {
         return projetService.saveProject(projectDto, idUser);
     }
 
-
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("")
     public Iterable<Project> getProjects(){
         return projetService.getProjects();
     }
-
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("/{id}")
@@ -47,7 +41,6 @@ public class ProjectController {
         }
     }
 
-
     @PostMapping("/searchProject")
     public List<Project> searchProjectByName(@RequestBody SearchProjectRequest searchProjectRequest){
         List<Project> project = null;
@@ -59,39 +52,18 @@ public class ProjectController {
         return project;
     }
 
-
-
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
         return projetService.updateProject(projectDto);
     }
 
-
-/*
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
-    public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
-        projetService.deleteProject(id, authentication.getName());
-
+    public void deleteProjet(@PathVariable("id") final Long id) {
+        projetService.projectDelete(id);
     }
-*/
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-@DeleteMapping("/{id}")
-public void deleteProjet(@PathVariable("id") final Long id) {
-    projetService.projectDelete(id);
-
-}
 
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-//    @DeleteMapping("/admin/{id}")
-//    public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {
-//        projetService.deleteProjectAdmin(id, authentication.getName());
-//    }
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-@DeleteMapping("/admin/{id}")
-public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication) {
-    projetService.deleteProjectAdmin(id, authentication.getName());
-}
+
 }

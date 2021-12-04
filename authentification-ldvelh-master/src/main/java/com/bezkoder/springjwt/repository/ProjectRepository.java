@@ -17,8 +17,5 @@ import java.util.Optional;
 public interface ProjectRepository extends CrudRepository<Project,Long> {
     List<Project> findByName(String name);
     List<Project> findAll();
-//    Optional <Project> deleteProjectByUserId;
 
-//    static void save(Optional<User> user) {
-//    }
 }

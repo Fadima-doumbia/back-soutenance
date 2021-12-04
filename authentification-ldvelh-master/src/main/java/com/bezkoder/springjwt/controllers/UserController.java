@@ -1,6 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.dto.UserDto;
+import com.bezkoder.springjwt.dto.UserUpdateDto;
 import com.bezkoder.springjwt.models.ERole;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
@@ -85,12 +85,6 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    /*    @DeleteMapping("/{id}")
-    public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
-        projetService.deleteProject(id, authentication.getName());
-
-    }*/
-
     @GetMapping("")
     public Iterable<User> listUser(){
         return userService.getAllUser();
@@ -111,6 +105,19 @@ public class UserController {
     public User updateUser(@RequestBody User u){
         Optional<User> user = userService.getUser(u.getId());
         return userService.saveUser(u);
+    }
+
+    @PutMapping("/modif")
+    public User updateUser(@RequestBody UserUpdateDto userUpdateDto){
+        Optional <User> optionalUser = userService.getUser(userUpdateDto.getId());
+        userUpdateDto.setRoles(optionalUser.get().getRoles());
+        userUpdateDto.setProjects(optionalUser.get().getProjects());
+        if(optionalUser.isPresent()){
+            return userService.updateUser(userUpdateDto);
+        }else {
+            return null;
+        }
+
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")

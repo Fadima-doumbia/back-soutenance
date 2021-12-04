@@ -1,8 +1,7 @@
 package com.bezkoder.springjwt.security.services.impl;
 
-import com.bezkoder.springjwt.dto.UserDto;
+import com.bezkoder.springjwt.dto.UserUpdateDto;
 import com.bezkoder.springjwt.models.ERole;
-import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.RoleRepository;
@@ -12,10 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
+
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,50 +49,17 @@ public class UserServiceImpl implements UserService {
         return save;
     }
 
-    /*
-    public User deleteProjectAdmin(Long id, String username){
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        User user = null;
-        Optional<Role> adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-        if (userOptional.isPresent() && adminRole.isPresent()){
-            Optional<Project> projetOptional = projectRepository.findById(id);
-            user = userOptional.get();
-            user.getProjects().remove(projetOptional.get());
-            return userRepository.save(user);
-        }
-        return user;
+    @Override
+    public User updateUser(UserUpdateDto userUpdateDto){
+        User user = modelMapper.map(userUpdateDto, User.class);
+        return userRepository.save(user);
     }
-* */
-    /*    public User saveProject(ProjectDto projectDto, Long idUser){
-        Optional<User> userOptional = userRepository.findById(idUser);
-        Project project = modelMapper.map(projectDto, Project.class);
-        User user = null;
-        if (userOptional.isPresent()){
-            user = userOptional.get();
-            user.getProjects().add(project);
-            return userRepository.save(user);
-        }
-        return user;
-    }*/
-    /* essai
-       public User deleteProjectPro(Long id, String username){
-       Optional<User> userOptional = userRepository.findByUsername(username);
-       Optional<Project> projetOptional = projectRepository.findById(id);
-       User user = userOptional.get();
-       Long userId = user.getId();
-       Long projectUserId = projetOptional.get().getUserId();
-       if (userOptional.isPresent() && userId == projectUserId){
-           user.getProjects().remove(projetOptional.get());
-           return userRepository.save(user); }
-       return user;} */
+
+
+
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
-    }
-
-    @Override
-    public User deleteProject(Long id, String username) {
-        return null;
     }
 
 }
