@@ -12,6 +12,7 @@ import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Data
 @Service
 public class ProjectService {
-    @Autowired //permet d'avoir acces au repository'
+    @Autowired
     private ProjectRepository projectRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     @Autowired
@@ -42,7 +43,7 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-/*    public User deleteProject(Long id, String username){
+    public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
         if (userOptional.isPresent()){
@@ -54,7 +55,7 @@ public class ProjectService {
             return userRepository.save(user);
         }
         return user;
-    }*/
+    }
 
         /* test delete par propriete
     public User deleteProject(Long id, String username){
@@ -101,6 +102,26 @@ public class ProjectService {
         }
         return user;
     }
+
+
+
+
+    public void projectDelete(Long id){
+        Project projetOptional = projectRepository.findById(id).get();
+        User userOptional = userRepository.findById(projetOptional.getUserId()).get();
+        userOptional.getProjects().remove(projetOptional);
+        userRepository.save(userOptional);
+    }
+
+
+
+
+
+
+
+
+
+
 
     public Project updateProject(ProjectDto projectDto){
         Project project = modelMapper.map(projectDto, Project.class);

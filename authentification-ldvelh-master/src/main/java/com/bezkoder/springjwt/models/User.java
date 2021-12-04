@@ -49,7 +49,7 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "userId")
 	private Set<Project> projects = new HashSet<>();
 
 	public User(String username, String email, String presentation, String password) {

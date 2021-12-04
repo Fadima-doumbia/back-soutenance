@@ -22,13 +22,12 @@ public class ProjectController {
     private ProjectService projetService;
     private UserService userService;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")//authoriser avec des roles
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PostMapping("/{idUser}")
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
         return projetService.saveProject(projectDto, idUser);
     }
-    /*public Project createProjet( @RequestBody ProjectDto projectDto){
-        return projetService.saveProject(projectDto);}*/
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @GetMapping("")
@@ -69,18 +68,30 @@ public class ProjectController {
     }
 
 
+/*
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
     public void deleteProjet(@PathVariable("id") final Long id, Authentication authentication) {
         projetService.deleteProject(id, authentication.getName());
 
     }
+*/
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+@DeleteMapping("/{id}")
+public void deleteProjet(@PathVariable("id") final Long id) {
+    projetService.projectDelete(id);
+
+}
 
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-    @DeleteMapping("/admin/{id}")
-    public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {
-        projetService.deleteProjectAdmin(id, authentication.getName());
-    }
-
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+//    @DeleteMapping("/admin/{id}")
+//    public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication, ERole role) {
+//        projetService.deleteProjectAdmin(id, authentication.getName());
+//    }
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+@DeleteMapping("/admin/{id}")
+public void deleteAdminProjet(@PathVariable("id") final Long id, Authentication authentication) {
+    projetService.deleteProjectAdmin(id, authentication.getName());
+}
 }

@@ -19,6 +19,6 @@ public interface ProjectRepository extends CrudRepository<Project,Long> {
     List<Project> findAll();
 //    Optional <Project> deleteProjectByUserId;
 
-    static void save(Optional<User> user) {
-    }
+//    static void save(Optional<User> user) {
+//    }
 }
