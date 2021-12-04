@@ -42,7 +42,7 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-    public User deleteProject(Long id, String username){
+/*    public User deleteProject(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
         if (userOptional.isPresent()){
@@ -54,7 +54,7 @@ public class ProjectService {
             return userRepository.save(user);
         }
         return user;
-    }
+    }*/
 
         /* test delete par propriete
     public User deleteProject(Long id, String username){
@@ -74,7 +74,7 @@ public class ProjectService {
     }*/
 
 
-    public User deleteProjectEntren(Long id, String username){
+ /*   public User deleteProjectEntren(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = null;
         Optional<Role> entreRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR);
@@ -87,7 +87,7 @@ public class ProjectService {
             userRepository.save(user);
         }
         return user;
-    }
+    }*/
 
     public User deleteProjectAdmin(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);

@@ -112,17 +112,6 @@ public class UserController {
         Optional<User> user = userService.getUser(u.getId());
         return userService.saveUser(u);
     }
-    //nouvelle que je test
-    @PutMapping("/dto")
-    public User updateUserDto(@RequestBody UserDto userDto){
-        Optional<User> user = userService.getUser(userDto.getId());
-        return userService.updateUserDto(userDto);
-    }
-    //nouvelle que je test
-    @PutMapping("/update")
-    public User updateUserUsername(Authentication authentication, @RequestBody User user){
-        return userService.updateUser(authentication.getName(), user);
-    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
      @DeleteMapping("/delete/{id}")

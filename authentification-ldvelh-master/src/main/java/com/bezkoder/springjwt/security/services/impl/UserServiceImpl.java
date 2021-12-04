@@ -52,23 +52,6 @@ public class UserServiceImpl implements UserService {
         return save;
     }
 
-
-    @Override
-    public User updateUsersimple(User user) {
-        User userr = modelMapper.map(user, User.class);
-        return userRepository.save(userr);
-    }
-    @Override
-    public User updateUserDto(UserDto userDto) {//nouvelle que je test
-        User user = modelMapper.map(userDto, User.class);
-        return userRepository.save(user);
-    }
-    public User updateUser(String username, User user){//nouvelle que je test
-        Optional<User> currentUser = userRepository.findByUsername(username);
-        User userr = modelMapper.map(currentUser, User.class);
-        return userRepository.save(userr);
-    }
-
     /*
     public User deleteProjectAdmin(Long id, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
