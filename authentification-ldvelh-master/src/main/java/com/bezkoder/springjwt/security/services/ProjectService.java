@@ -38,7 +38,7 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-    public void projectDelete(Long id){
+    public void projectDelete (Long id){
         Project projetOptional = projectRepository.findById(id).get();
         User userOptional = userRepository.findById(projetOptional.getUserId()).get();
         userOptional.getProjects().remove(projetOptional);

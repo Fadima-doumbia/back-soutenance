@@ -54,9 +54,9 @@ public class UserController {
         return userService.saveUser(u);
     }
 
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/createAdmin")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
+    public ResponseEntity<?> registerAdminUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -82,7 +82,7 @@ public class UserController {
 
         userService.createNewAdmin(user, authentication.getName());
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("New user registered by admin successfully!"));
     }
 
     @GetMapping("")
@@ -100,13 +100,7 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
-    @PutMapping
-    public User updateUser(@RequestBody User u){
-        Optional<User> user = userService.getUser(u.getId());
-        return userService.saveUser(u);
-    }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @PutMapping("/modif")
     public User updateUser(@RequestBody UserUpdateDto userUpdateDto){
         Optional <User> optionalUser = userService.getUser(userUpdateDto.getId());
