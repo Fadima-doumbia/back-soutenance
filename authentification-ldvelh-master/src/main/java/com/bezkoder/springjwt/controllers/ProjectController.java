@@ -4,9 +4,11 @@ import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
+import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class ProjectController {
     @Autowired
     private ProjectService projetService;
+    @Autowired
+    UserRepository userRepository;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PostMapping("/{idUser}")
@@ -65,5 +69,17 @@ public class ProjectController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @DeleteMapping("/delete/{id}")
+    public void deleteProject(@PathVariable("id") final Long id) {
+        String authentication = Authentication.class.getName();
+        Optional <User> optionalUser = userRepository.findByUsername(authentication);
+        Long userId = optionalUser.get().getId();
+        Optional <Project> projectOptional = projetService.getProject(id);
+        Long projectUserId = projectOptional.get().getUserId();
+        if(userId == projectUserId){
+            projetService.projectDelete(id);
+        }
+    }
 
 }
