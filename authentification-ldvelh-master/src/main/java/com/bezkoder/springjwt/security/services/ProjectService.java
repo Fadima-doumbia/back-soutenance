@@ -10,6 +10,7 @@ import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,18 +39,41 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
+/*
     public void projectDelete(Long id){
         Project projetOptional = projectRepository.findById(id).get();
         User userOptional = userRepository.findById(projetOptional.getUserId()).get();
         userOptional.getProjects().remove(projetOptional);
         userRepository.save(userOptional);
     }
-
-    public Project updateProject(ProjectDto projectDto){
-        Project project = modelMapper.map(projectDto, Project.class);
-        return projectRepository.save(project);
+*/
+    public void projectDelete(Long userid, Long id){
+        Project projetOptional = projectRepository.findById(id).get();
+        User userOptional = userRepository.findById(userid).get();
+        userOptional.getProjects().remove(projetOptional);
+        userRepository.save(userOptional);
     }
 
+
+    /*    public Project updateProject(ProjectDto projectDto){
+        Project project = modelMapper.map(projectDto, Project.class);
+        return projectRepository.save(project);
+    }*/
+    public void updateProject(ProjectDto projectDto){
+        Project project = modelMapper.map(projectDto, Project.class);
+        projectRepository.save(project);
+    }
+/*    public Project updateProject(ProjectDto projectDto, Long id){
+        Long idUser = projectDto.getUserId();
+        if (id==idUser){
+            Project project = modelMapper.map(projectDto, Project.class);
+            return projectRepository.save(project);
+        }else{
+             return HttpStatus.FORBIDDEN;
+        }
+        return null;
+
+    }*/
     public User saveProject(ProjectDto projectDto, Long idUser){
         Optional<User> userOptional = userRepository.findById(idUser);
         Project project = modelMapper.map(projectDto, Project.class);
