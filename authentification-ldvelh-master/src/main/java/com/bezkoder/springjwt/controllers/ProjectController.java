@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,11 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PostMapping("/{idUser}")
     public User createProjet(@PathVariable("idUser") final Long idUser, @RequestBody ProjectDto projectDto){
-        return projetService.saveProject(projectDto, idUser);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional <User> optionalUser = userRepository.findByUsername(username);
+        Long id = optionalUser.get().getId();
+        return projetService.saveProject(projectDto, id);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
@@ -62,13 +67,7 @@ public class ProjectController {
         }
         return project;
     }
-//
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-//    @PutMapping("")
-//    public Project updateProjet(@RequestBody ProjectDto projectDto){
-//        return projetService.updateProject(projectDto);
-//    }
-//
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
@@ -76,7 +75,6 @@ public class ProjectController {
         final UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
         Optional <User> userOptional = userRepository.findById(user.getId());
         Optional <Project> optionalProject = projetService.getProject(id);
-
         if(optionalProject.get().getUserId() == userOptional.get().getId()){
             userOptional.get().getProjects().remove(optionalProject);
             projetService.projectDelete(optionalProject.get().getId());
@@ -86,16 +84,12 @@ public class ProjectController {
         }
     }
 
- /*   public Project updateProjet(@RequestBody ProjectDto projectDto){
-        return projetService.updateProject(projectDto);
-    }*/
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
     public ResponseEntity<String> updateProjet(@RequestBody() ProjectDto projectDto, Authentication authentication) {
         final UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
         Optional <User> userOptional = userRepository.findById(user.getId());
-//        Optional <Project> optionalProject = projetService.getProject(id);
 
         if(projectDto.getUserId() == userOptional.get().getId()){
             userOptional.get().getProjects().remove(projectDto);

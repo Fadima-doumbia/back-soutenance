@@ -32,14 +32,14 @@ public class User {
 	private String username;
 
 	@NotBlank
-	@Size(max = 50)
+	@Size(max = 20)
 	@Email
 	private String email;
 
 	private String presentation;
 
 	@NotBlank
-	@Size(max = 120)
+	@Size(max = 50)
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
