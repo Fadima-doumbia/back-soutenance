@@ -62,13 +62,13 @@ public class ProjectController {
         }
         return project;
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
-    @PutMapping("")
-    public Project updateProjet(@RequestBody ProjectDto projectDto){
-        return projetService.updateProject(projectDto);
-    }
-
+//
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+//    @PutMapping("")
+//    public Project updateProjet(@RequestBody ProjectDto projectDto){
+//        return projetService.updateProject(projectDto);
+//    }
+//
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @DeleteMapping("/{id}")
@@ -82,11 +82,29 @@ public class ProjectController {
             projetService.projectDelete(optionalProject.get().getId());
             return new ResponseEntity<String>("delete ok",HttpStatus.OK);
         }else {
-            return new ResponseEntity<String>("Ce Projet ne vous appartient pas", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<String>("Ce Projet ne vous appartient pas; Vous ne pourrez pas le supprimer", HttpStatus.FORBIDDEN);
         }
-//        projetService.projectDelete(id, user.getId());
     }
 
+ /*   public Project updateProjet(@RequestBody ProjectDto projectDto){
+        return projetService.updateProject(projectDto);
+    }*/
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @PutMapping("")
+    public ResponseEntity<String> updateProjet(@RequestBody() ProjectDto projectDto, Authentication authentication) {
+        final UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        Optional <User> userOptional = userRepository.findById(user.getId());
+//        Optional <Project> optionalProject = projetService.getProject(id);
+
+        if(projectDto.getUserId() == userOptional.get().getId()){
+            userOptional.get().getProjects().remove(projectDto);
+            projetService.updateProject(projectDto);
+            return new ResponseEntity<String>("update ok",HttpStatus.OK);
+        }else {
+            return new ResponseEntity<String>("Ce Projet ne vous appartient pas; Vous ne pourrez pas le modifier", HttpStatus.FORBIDDEN);
+        }
+    }
 
 
 }

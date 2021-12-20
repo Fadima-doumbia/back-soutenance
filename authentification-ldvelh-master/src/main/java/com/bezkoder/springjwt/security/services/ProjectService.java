@@ -39,27 +39,10 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-/*
     public void projectDelete(Long id){
         Project projetOptional = projectRepository.findById(id).get();
-        User userOptional = userRepository.findById(projetOptional.getUserId()).get();
-        userOptional.getProjects().remove(projetOptional);
-        userRepository.save(userOptional);
+        projectRepository.delete(projetOptional);
     }
-*/
-public void projectDelete(Long id){
-
-    Project projetOptional = projectRepository.findById(id).get();
-    projectRepository.delete(projetOptional);
-
-/*    if (userOptional.getId() == projetOptional.getUserId()){
-        userOptional.getProjects().remove(projetOptional);
-        userRepository.save(userOptional);
-    }else{
-    }*/
-//    userOptional.getProjects().remove(projetOptional);
-//    userRepository.save(userOptional);
-}
 
     public Project updateProject(ProjectDto projectDto){
 
