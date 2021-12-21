@@ -10,7 +10,6 @@ public class ProjectDto {
     private Long id;
     private String name;
     private String description;
-    private String entrepreneur;
     private String besoin;
     private Date dateD;
     private Long userId;

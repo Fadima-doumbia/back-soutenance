@@ -84,7 +84,7 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-         // Creer un nouveau compte utilisateur
+
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 signUpRequest.getPresentation(),
@@ -93,20 +93,18 @@ public class AuthController {
             Set<String> strRoles = new HashSet<String>(Collections.singletonList(signUpRequest.getRole()));
             Set<Role> roles = new HashSet<>();
 
-            //**********************Si l'utilisateur ne met pas de role, il met investisser par defaut****************
         if (strRoles.isEmpty()) {
             Role investRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(investRole);
         } else {
-            //***************Sinon il regarde si les conditions ci dessous son remplis*************************
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role  admin is not found."));
-                        roles.add(adminRole);
-                        break;
+//                    case "admin":
+//                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role  admin is not found."));
+//                        roles.add(adminRole);
+//                        break;
                     case "entrepreneur":
                         Role entrRole = roleRepository.findByName(ERole.ROLE_ENTREPRENEUR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role mod is not found."));
@@ -118,9 +116,9 @@ public class AuthController {
                         roles.add(investRole);
                         break;
                     default:
-//                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role user is not found."));
-//                        roles.add(userRole);
+                        Role userRole = roleRepository.findByName(ERole.ROLE_INVESTISSEUR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role user is not found."));
+                        roles.add(userRole);
                 }
             });
         }

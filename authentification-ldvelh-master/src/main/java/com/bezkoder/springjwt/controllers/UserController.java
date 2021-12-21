@@ -31,30 +31,19 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    UserService usersService;
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleRepository roleRepository;
-
     @Autowired
     PasswordEncoder encoder;
-
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping()
-    public User createUser(@RequestBody User u){
-        return userService.saveUser(u);
-    }
 
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createAdmin")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -100,13 +89,13 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MODERATEUR', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @PutMapping
     public User updateUser(@RequestBody User u){
-        Optional<User> user = userService.getUser(u.getId());
         return userService.saveUser(u);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR', 'ROLE_INVESTISSEUR')")
     @PutMapping("/modif")
     public User updateUser(@RequestBody UserUpdateDto userUpdateDto){
         Optional <User> optionalUser = userService.getUser(userUpdateDto.getId());
@@ -117,12 +106,24 @@ public class UserController {
         }else {
             return null;
         }
-
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-     @DeleteMapping("/delete/{id}")
-     public void deleteUser(@PathVariable("id") Long id) {
-         usersService.deleteUser(id);
-     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin")
+    public User updateUProject(@RequestBody UserUpdateDto userUpdateDto){
+        return userService.updateUser(userUpdateDto);
+    }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+    }
+
+/*    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/admin/{id}")
+    public void deleteUseradmin(@PathVariable("id") final Long id) {
+        userService.deleteUser(id);
+    }*/
+
 }

@@ -23,6 +23,13 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
+
+    @Override
+    public User saveUser(User u) {
+        User save = userRepository.save(u);
+        return save;
+    }
+
     public  User createNewAdmin(User user, String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
         User newUser = null;
@@ -44,18 +51,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User u) {
-        User save = userRepository.save(u);
-        return save;
-    }
-
-    @Override
     public User updateUser(UserUpdateDto userUpdateDto){
         User user = modelMapper.map(userUpdateDto, User.class);
         return userRepository.save(user);
     }
-
-
 
     @Override
     public void deleteUser(Long id) {

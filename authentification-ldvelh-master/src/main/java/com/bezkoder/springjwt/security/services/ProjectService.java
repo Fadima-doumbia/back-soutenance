@@ -39,10 +39,12 @@ public class ProjectService {
         return projectRepository.findByName(searchProjectRequest.getName());
     }
 
-
     public void projectDelete(Long id){
         Project projetOptional = projectRepository.findById(id).get();
-        projectRepository.delete(projetOptional);
+        User userOptional = userRepository.findById(projetOptional.getUserId()).get();
+        userOptional.getProjects().remove(projetOptional);
+        userRepository.save(userOptional);
+
     }
 
     public Project updateProject(ProjectDto projectDto){
@@ -63,4 +65,16 @@ public class ProjectService {
         return user;
     }
 
+    public void adminDeleteProject(Long id){
+        Project projetOptional = projectRepository.findById(id).get();
+        User userOptional = userRepository.findById(projetOptional.getUserId()).get();
+        userOptional.getProjects().remove(projetOptional);
+        userRepository.save(userOptional);
+
+    }
+
+    public Project adminUpdateProject(ProjectDto projectDto){
+        Project project = modelMapper.map(projectDto, Project.class);
+        return projectRepository.save(project);
+    }
 }
