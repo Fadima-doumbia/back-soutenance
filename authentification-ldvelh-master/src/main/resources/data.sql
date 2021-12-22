@@ -23,3 +23,6 @@ VALUES (1, 'argent', '2021-12-01 21:54:31', 'projet associatif', 'faso', 2);
 
 INSERT INTO `projet` (`id`, `besoin`, `dated`, `description`, `name`, `user_id`)
 VALUES (2, 'marteriel', '2021-12-01 21:54:31', 'kalaban koura', 'bozola', 2);
+
+
+

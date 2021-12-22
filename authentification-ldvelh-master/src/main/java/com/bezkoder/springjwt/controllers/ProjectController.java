@@ -111,4 +111,31 @@ public class ProjectController {
         public void deleteProjetAdmin(@PathVariable("id") final Long id) {
             projetService.adminDeleteProject(id);
         }
+//    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @PutMapping("")
+    public Project updateProjet(@RequestBody ProjectDto projectDto){
+        return projetService.updateProject(projectDto);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @DeleteMapping("/{id}")
+    public void deleteProjet(@PathVariable("id") final Long id) {
+        projetService.projectDelete(id);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
+    @DeleteMapping("/delete/{id}")
+    public void deleteProject(@PathVariable("id") final Long id) {
+        String authentication = Authentication.class.getName();
+        Optional <User> optionalUser = userRepository.findByUsername(authentication);
+        Long userId = optionalUser.get().getId();
+        Optional <Project> projectOptional = projetService.getProject(id);
+        Long projectUserId = projectOptional.get().getUserId();
+        if(userId == projectUserId){
+            projetService.projectDelete(id);
+        }
+    }
+}

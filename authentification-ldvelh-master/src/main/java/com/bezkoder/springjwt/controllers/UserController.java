@@ -45,7 +45,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createAdmin")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
+    public ResponseEntity<?> registerAdminUser(@RequestBody SignupRequest signUpRequest, Authentication authentication) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -71,7 +71,7 @@ public class UserController {
 
         userService.createNewAdmin(user, authentication.getName());
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("New user registered by admin successfully!"));
     }
 
     @GetMapping("")

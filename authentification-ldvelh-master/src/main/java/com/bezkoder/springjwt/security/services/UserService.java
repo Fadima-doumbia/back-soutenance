@@ -14,7 +14,6 @@ public interface UserService {
 
     User createNewAdmin(User user, String username);
 
-//    User updateUser(UserDto userDto);
     User updateUser(UserUpdateDto userUpdateDto);
 
     void deleteUser(Long id);
