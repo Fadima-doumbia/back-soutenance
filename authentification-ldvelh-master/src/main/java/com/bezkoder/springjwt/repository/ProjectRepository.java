@@ -1,20 +1,24 @@
 package com.bezkoder.springjwt.repository;
 
-import com.bezkoder.springjwt.dto.UserDto;
-import com.bezkoder.springjwt.models.ERole;
+
 import com.bezkoder.springjwt.models.Project;
+<<<<<<< HEAD
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.ResponseEntity;
+=======
+
+import org.springframework.data.jpa.repository.JpaRepository;
+>>>>>>> 11e01a14f61a4b586f0a56fe9ff8a0a8cec407f1
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-@CrossOrigin("*")//intervient quand je viens du front il lie le front et back
-public interface ProjectRepository extends CrudRepository<Project,Long> {
+@CrossOrigin("*")
+public interface ProjectRepository extends JpaRepository<Project,Long> {
     List<Project> findByName(String name);
     List<Project> findAll();
 

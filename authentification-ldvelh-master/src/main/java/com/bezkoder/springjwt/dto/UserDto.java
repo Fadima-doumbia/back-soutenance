@@ -19,5 +19,9 @@ public class UserDto {
     private String password;
     private Set<Role> roles = new HashSet<>();
     private Set<Project> projects = new HashSet<>();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4549242f7ac23659af0393b1565390736a207f35
 }
 
