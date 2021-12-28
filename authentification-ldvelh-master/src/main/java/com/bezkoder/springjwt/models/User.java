@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
 	@NotBlank
@@ -31,14 +32,14 @@ public class User {
 	private String username;
 
 	@NotBlank
-	@Size(max = 50)
+	@Size(max = 20)
 	@Email
 	private String email;
 
 	private String presentation;
 
 	@NotBlank
-	@Size(max = 120)
+	@Size(max = 50)
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -48,9 +49,8 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany( orphanRemoval = true, cascade = { CascadeType.ALL}, fetch = FetchType.EAGER) //c'est ca qui bloquait le update user
-//	@OneToMany // avec ca le createProject fonctionne
-	Set<Project> projects;
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "userId")
+	private Set<Project> projects = new HashSet<>();
 
 	public User(String username, String email, String presentation, String password) {
 		this.username = username;

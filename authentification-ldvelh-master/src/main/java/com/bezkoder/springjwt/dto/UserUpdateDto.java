@@ -4,14 +4,11 @@ import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.Role;
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class UserDto {
-
+public class UserUpdateDto {
     private Long id;
     private String username;
     private String email;
@@ -19,6 +16,4 @@ public class UserDto {
     private String password;
     private Set<Role> roles = new HashSet<>();
     private Set<Project> projects = new HashSet<>();
-
 }
-
