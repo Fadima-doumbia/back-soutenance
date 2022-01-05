@@ -52,6 +52,10 @@ public class User {
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "userId")
 	private Set<Project> projects = new HashSet<>();
 
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "userId")
+	private Set<Post> posts = new HashSet<>();
+
+
 	public User(String username, String email, String presentation, String password) {
 		this.username = username;
 		this.email = email;

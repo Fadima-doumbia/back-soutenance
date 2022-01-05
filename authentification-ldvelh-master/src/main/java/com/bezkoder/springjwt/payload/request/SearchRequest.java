@@ -4,6 +4,6 @@ import lombok.Data;
 
 
 @Data
-public class SearchProjectRequest {
+public class SearchRequest {
 	private String name;
 }

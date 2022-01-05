@@ -3,14 +3,13 @@ package com.bezkoder.springjwt.security.services;
 import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
-import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
+import com.bezkoder.springjwt.payload.request.SearchRequest;
 import com.bezkoder.springjwt.repository.ProjectRepository;
 import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +34,8 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public List<Project> searchProjectByName (SearchProjectRequest searchProjectRequest){
-        return projectRepository.findByName(searchProjectRequest.getName());
+    public List<Project> searchProjectByName (SearchRequest searchRequest){
+        return projectRepository.findByName(searchRequest.getName());
     }
 
     public void projectDelete (Long id){

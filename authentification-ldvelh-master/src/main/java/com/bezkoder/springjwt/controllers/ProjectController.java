@@ -3,7 +3,7 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.dto.ProjectDto;
 import com.bezkoder.springjwt.models.Project;
 import com.bezkoder.springjwt.models.User;
-import com.bezkoder.springjwt.payload.request.SearchProjectRequest;
+import com.bezkoder.springjwt.payload.request.SearchRequest;
 import com.bezkoder.springjwt.repository.ProjectRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.services.ProjectService;
@@ -58,12 +58,12 @@ public class ProjectController {
     }
 
     @PostMapping("/searchProject")
-    public List<Project> searchProjectByName(@RequestBody SearchProjectRequest searchProjectRequest){
+    public List<Project> searchProjectByName(@RequestBody SearchRequest searchRequest){
         List<Project> project = null;
-        if (searchProjectRequest.getName().isEmpty()){
+        if (searchRequest.getName().isEmpty()){
             project = projetService.getProjects();
         }else{
-            project=projetService.searchProjectByName(searchProjectRequest);
+            project=projetService.searchProjectByName(searchRequest);
         }
         return project;
     }
@@ -109,8 +109,7 @@ public class ProjectController {
     public void deleteProjetAdmin(@PathVariable("id") final Long id) {
         projetService.adminDeleteProject(id);
     }
-//    }
-
+/*
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTREPRENEUR')")
     @PutMapping("")
     public Project updateProjet(@RequestBody ProjectDto projectDto){
@@ -135,5 +134,5 @@ public class ProjectController {
         if(userId == projectUserId){
             projetService.projectDelete(id);
         }
-    }
+    }*/
 }
