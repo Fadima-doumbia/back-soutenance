@@ -1,4 +1,4 @@
-package com.bezkoder.springjwt.security;
+package com.bezkoder.springjwt.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

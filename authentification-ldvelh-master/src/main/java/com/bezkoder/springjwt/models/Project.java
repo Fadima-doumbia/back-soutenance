@@ -21,5 +21,7 @@ public class Project {
     private String besoin;
     private Date dateD;
     private Long userId;
+    @OneToOne(fetch=FetchType.EAGER)
+    private Category category;
 
 }
