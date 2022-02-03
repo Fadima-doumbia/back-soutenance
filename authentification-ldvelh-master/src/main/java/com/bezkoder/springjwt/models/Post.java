@@ -19,4 +19,7 @@ public class Post {
     private String image;
     private boolean isLike;
     private Long userId;
+
+//    @ManyToOne
+//    private User user;
 }

@@ -15,5 +15,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findAll();
     Optional<Post> findById(Long id);
     List<Post> findByTexte(String texte);
+    List<Post> findAllByOrderByIdDesc();
 
 }

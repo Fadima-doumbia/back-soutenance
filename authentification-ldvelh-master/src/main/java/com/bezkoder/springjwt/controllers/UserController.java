@@ -1,7 +1,10 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.dto.PostDto;
+import com.bezkoder.springjwt.dto.UserDto;
 import com.bezkoder.springjwt.dto.UserUpdateDto;
 import com.bezkoder.springjwt.models.ERole;
+import com.bezkoder.springjwt.models.Post;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.SignupRequest;
@@ -10,7 +13,10 @@ import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.jwt.JwtUtils;
 import com.bezkoder.springjwt.security.services.UserService;
+import com.bezkoder.springjwt.util.FileUtile;
+import com.bezkoder.springjwt.util.FileUtilePost;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,11 +24,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 @Data
 @RestController
@@ -41,6 +46,8 @@ public class UserController {
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
+    private final ModelMapper modelMapper = new ModelMapper();
+
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -125,5 +132,35 @@ public class UserController {
     public void deleteUseradmin(@PathVariable("id") final Long id) {
         userService.deleteUser(id);
     }*/
+    // ********* fonction upload ***********************************
+
+    private User upload(MultipartFile file, UserDto userDto) {
+        String fileName = "";
+        String lastFile = "";
+        if (file != null) {
+            String[] nameExtension = Objects.requireNonNull(file.getContentType()).split("/");
+            fileName = "profil" + "." + nameExtension[1];
+            lastFile = userDto.getId() != null ? userDto.getPresentation() : "";
+
+            userDto.setPresentation(fileName);
+        }
+
+        User user = userRepository.save(modelMapper.map(userDto, User.class));
+        if (file != null) {
+            try {
+                if (userDto.getId() != null) {
+                    FileUtile.saveFileAndReplace(lastFile, file, fileName, user.getId());
+                } else {
+                    FileUtile.saveFile(user.getId(), fileName, file);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return user;
+    }
+
 
 }

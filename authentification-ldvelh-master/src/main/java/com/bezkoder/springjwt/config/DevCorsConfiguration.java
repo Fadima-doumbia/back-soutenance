@@ -13,5 +13,10 @@ public class DevCorsConfiguration implements WebMvcConfigurer {
                 .exposedHeaders("Authorization");
     }
 }
-
+/*public class WebCorsConfig implements WebMvcConfigurer {
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .exposedHeaders("Authorization");
+    }*/
 
