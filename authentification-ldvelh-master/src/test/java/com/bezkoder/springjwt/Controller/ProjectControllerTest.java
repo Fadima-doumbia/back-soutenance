@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,13 +27,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @ExtendWith(MockitoExtension.class)
 //@RunWith(JUnitPlatform.class)
 public class ProjectControllerTest {
-/*    @InjectMocks
+    @InjectMocks
     ProjectController projectController;
 
     @Mock
-    Project project;*/
+    Project project;
 
-    /*@Test
+/*    @Test
     public void testAddEmployee()
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -48,9 +47,8 @@ public class ProjectControllerTest {
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
         assertThat(responseEntity.getHeaders().getLocation().getPath()).isEqualTo("/1");
     }*/
-/*
-    @Test
-    public void testFindAll()
+//    @Test
+/*    public void testFindAll()
     {
         // given
         Employee employee1 = new Employee(1, "Lokesh", "Gupta", "howtodoinjava@gmail.com");
